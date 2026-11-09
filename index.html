@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>paleblue | Big ideas. Little devices. Better lives.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!--The PaleBlue Public Website-->
+    <div id="site" class="view active">
+      <!-- Top row: logo + small company links -->
+      <div class="utility">
+        <div class="wrap">
+          <a class="logo" href="#"><i></i>paleblue</a>
+          <nav aria-label="Company">
+            <a href="#">Careers</a>
+            <a href="#">Investors</a>
+            <a href="#">Contact</a>
+            <button class="portal-btn" id="openPortal">Employee portal</button>
+            <!--Where the game is played-->
+          </nav>
+        </div>
+      </div>
+
+      <!-- Blue bar: page sections -->
+      <nav class="mainbar" aria-label="Main">
+        <div class="wrap">
+          <ul>
+            <li class="has-menu">
+              <button class="menu-btn" aria-haspopup="true">About</button>
+              <ul class="menu">
+                <li><a href="#mission">Our mission</a></li>
+                <li><a href="#values">Our values</a></li>
+              </ul>
+            </li>
+            <li class="has-menu">
+              <button class="menu-btn" aria-haspopup="true">Products</button>
+              <ul class="menu">
+                <li>
+                  <a href="#dot"
+                    >Dot<small>PB-ISS-200 | Ingestible Sensor System</small></a
+                  >
+                </li>
+                <!-- made-up pipeline products -->
+                <li>
+                  <span class="soon"
+                    >Albedo<small
+                      >PB-ROX-110 | Reusable Reflectance Pulse Oximetry
+                      Sensor</small
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="soon"
+                    >Syzygy<small
+                      >PB-PTC-300 | Point-of-Care Testing System</small
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="soon"
+                    >Transit<small
+                      >PB-CBS-157 | CMOS Biosensor Chip</small
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="soon"
+                    >Parallax<small
+                      >PB-SDI-405 | Depth Sensing Imaging Chip</small
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="soon"
+                    >Lagrange<small
+                      >PB-ICM-121 | Insertable Cardiac Monitor</small
+                    ></span
+                  >
+                </li>
+              </ul>
+            </li>
+            <li><a href="#isi">Safety information</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <header class="hero hero--night">
+        <div class="wrap">
+          <div>
+            <h1 class="motto">
+              <span>Big ideas.</span><span>Little devices.</span
+              ><span>Better lives.</span>
+            </h1>
+            <p class="lede">
+              Inspired by our little blue planet, we believe technology should
+              make life better, not more complicated. We're creating thoughtful
+              medical innovations that bring extraordinary possibilities into
+              everyday life.
+            </p>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="planet"></div>
+            <div class="orbit"><div class="capsule"></div></div>
+          </div>
+        </div>
+      </header>
+
+      <section class="band" id="dot">
+        <div class="wrap product">
+          <div>
+            <h2>
+              Meet Dot. The pill that lets your care team know you're okay.
+            </h2>
+            <p>
+              Dot is a tiny sensor inside a standard capsule. When it reaches
+              your stomach, it sends a signal to a soft patch on your skin,
+              letting your care team know your medication was taken. No logs. No
+              guesswork. Just peace of mind after transplant.
+            </p>
+          </div>
+          <dl class="spec">
+            <dt>Device</dt>
+            <dd>Dot™ Ingestible Sensor System</dd>
+            <dt>Model</dt>
+            <dd>PB-ISS-200</dd>
+            <dt>Indication</dt>
+            <dd>
+              Medication adherence monitoring in adult solid-organ transplant
+              recipients
+            </dd>
+            <dt>Components</dt>
+            <dd>Sensor capsule, wearable patch, Dot Care app</dd>
+            <dt>Regulatory</dt>
+            <dd>FDA 510(k) cleared</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section class="mission" id="mission">
+        <div class="wrap">
+          <h2>Because a little can mean a lot.</h2>
+          <blockquote>
+            “We're here for a relatively short time on a remarkably beautiful
+            little planet. We believe that's reason enough to make things
+            better.”
+            <cite>Founder's letter, Paleblue Medical Technologies, Inc.</cite>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Company values -->
+      <section class="band" id="values">
+        <div class="wrap">
+          <h2 class="section-title">We live <span class="blue">BLUE</span></h2>
+          <p class="values-lede">
+            Four values that shape every device we build and every decision we
+            make.
+          </p>
+          <ul class="values">
+            <li>
+              <span class="icon" aria-hidden="true"
+                ><i class="ti ti-rocket"></i
+              ></span>
+              <div>
+                <h3><span class="blue">B</span>e bold</h3>
+                <p>
+                  Big ideas don't wait for permission. We move first, learn
+                  fast, and bring what's possible to patients sooner.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="icon" aria-hidden="true"
+                ><i class="ti ti-heartbeat"></i
+              ></span>
+              <div>
+                <h3><span class="blue">L</span>ives first</h3>
+                <p>
+                  Every device is someone's recovery. Every decision starts with
+                  the person on the other end of it.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="icon" aria-hidden="true"
+                ><i class="ti ti-users"></i
+              ></span>
+              <div>
+                <h3><span class="blue">U</span>s, together</h3>
+                <p>
+                  One team, one mission. We carry each other, and we win as
+                  PaleBlue.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="icon" aria-hidden="true"
+                ><i class="ti ti-shield-check"></i
+              ></span>
+              <div>
+                <h3><span class="blue">E</span>arn trust</h3>
+                <p>
+                  We speak plainly to patients, clinicians, regulators, and each
+                  other. When something goes wrong, we find it, name it, and fix
+                  it.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="isi" id="isi">
+        <div class="wrap">
+          <h3>Important safety information</h3>
+          <p>
+            Dot is contraindicated in patients with known or suspected
+            gastrointestinal strictures, fistulas, obstruction, or inflammatory
+            bowel disease, including Crohn's disease and ulcerative colitis.
+            Capsule retention may occur and may require endoscopic or surgical
+            removal.
+          </p>
+          <p>
+            Do not undergo MRI until passage of the capsule has been confirmed.
+            Seek medical attention for abdominal pain, nausea, vomiting, or
+            difficulty swallowing. Adherence data supports, and does not
+            replace, clinical judgment.
+          </p>
+        </div>
+      </section>
+
+      <footer class="site-foot">
+        <div class="wrap">
+          <span>© 2026 Paleblue Medical, Inc.</span>
+          <small
+            >Professional Development: Leadership Principles | Leadership
+            Challenge</small
+          >
+        </div>
+      </footer>
+    </div>
+
+    <!-- ============================================================
+     VIEW 2: the internal leadership console (the game)
+     ============================================================ -->
+    <div id="game" class="view">
+      <div class="console-bar">
+        <div class="wrap">
+          <span class="logo"><i></i>paleblue leadership console</span>
+          <span class="who">Product Safety Review Board Chair</span>
+          <button id="exitBtn">Sign out</button>
+        </div>
+      </div>
+      <div class="meters" id="meters"></div>
+      <main id="screen" class="wrap"></main>
+      <div class="keys" id="keys">
+        <span class="paused-banner">Paused. Press P to resume.</span>
+        <kbd>Space</kbd> start clock or continue &nbsp; <kbd>A</kbd>–<kbd
+          >D</kbd
+        >
+        record the room's choice &nbsp; <kbd>G</kbd> a fired member goes public
+        &nbsp; <kbd>P</kbd> pause &nbsp; <kbd>F</kbd> full screen &nbsp;
+        <kbd>Shift</kbd>+<kbd>R</kbd> restart
+      </div>
+    </div>
+
+    <script src="content.js"></script>
+  </body>
+</html>
