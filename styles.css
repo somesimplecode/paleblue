@@ -629,9 +629,8 @@ footer.site-foot small {
 
 .stage {
   display: grid;
-  grid-template-columns: 1fr 260px;
-  gap: 64px;
-  padding-top: 44px;
+  gap: 40px;
+  padding-top: 32px;
   padding-bottom: 120px;
 }
 .where {
@@ -656,21 +655,30 @@ footer.site-foot small {
   margin: 0 0 32px;
   max-width: 44em;
 }
+/* option sizing: adjust these three to resize every option card */
 .options {
+  --opt-text: clamp(17px, 1.7vw, 23px);
+  --opt-pad: clamp(16px, 1.6vw, 24px);
+  --opt-key: 40px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  grid-template-columns: 1fr 1fr; /* always A B / C D */
+  gap: 16px;
+}
+@media (max-width: 760px) {
+  .options {
+    grid-template-columns: 1fr; /* stack on phones */
+  }
 }
 .opt {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-start;
   text-align: left;
   background: var(--paper);
   border: 1.5px solid var(--line);
   border-radius: 14px;
-  padding: 18px 20px;
-  font-size: clamp(16px, 1.5vw, 20px);
+  padding: var(--opt-pad) calc(var(--opt-pad) + 4px);
+  font-size: var(--opt-text);
   line-height: 1.35;
   cursor: pointer;
   transition:
@@ -679,13 +687,13 @@ footer.site-foot small {
 }
 .opt b {
   flex: none;
-  width: 34px;
-  height: 34px;
+  width: var(--opt-key);
+  height: var(--opt-key);
   border-radius: 50%;
   display: grid;
   place-items: center;
   background: var(--paper-2);
-  font-size: 16px;
+  font-size: calc(var(--opt-key) * 0.45);
 }
 .opt:disabled {
   cursor: default;
@@ -704,56 +712,56 @@ footer.site-foot small {
   color: var(--paper);
 }
 
-/* the timer: the pale blue dot shrinks */
+/* the timer: a full-width bar that drains left to right */
 .clock {
   position: sticky;
-  top: 24px;
-  align-self: start;
-  text-align: center;
+  top: 12px;
+  z-index: 2;
+  height: 10px;
+  margin-bottom: 40px; /* room for the number under the bar */
+  border-radius: 99px;
+  background: var(--line);
 }
-.dial {
-  position: relative;
-  width: 220px;
-  height: 220px;
-  margin: 0 auto;
-  border-radius: 50%;
-  border: 1.5px dashed var(--line);
-  display: grid;
-  place-items: center;
-}
-.dot {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 34% 30%,
-    #fff 0,
-    var(--pale) 40%,
-    #6fa6d6 100%
-  );
-  transform: scale(1);
-}
-.dial .num {
+.clock .fill {
   position: absolute;
-  font-size: 64px;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--deep);
+  transform-origin: left;
+}
+.clock.running .fill {
+  transition: background-color 0.4s;
+}
+.clock.late .fill {
+  background: var(--alarm);
+}
+.clock .num {
+  position: absolute;
+  right: 0;
+  top: 18px;
+  font-size: clamp(24px, 3vw, 40px);
   font-weight: 600;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
-  color: var(--ink);
-  letter-spacing: -0.04em;
+  color: var(--ink-2);
 }
-.dial.urgent .dot {
-  background: radial-gradient(
-    circle at 34% 30%,
-    #fff 0,
-    #f0a69f 40%,
-    var(--alarm) 100%
-  );
+.clock.late .num {
+  color: var(--alarm);
 }
-.clock .hint {
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+  margin-top: 24px;
+}
+.controls .hint {
   font-size: 15px;
   color: var(--ink-2);
-  margin-top: 16px;
-  min-height: 3em;
+  margin: 0;
+}
+.controls .bigbtn {
+  margin-top: 0;
 }
 
 .result {
@@ -870,29 +878,84 @@ footer.site-foot small {
   max-width: 30em;
 }
 
-.keys {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--paper-2);
-  border-top: 1px solid var(--line);
-  font-size: 13px;
-  color: var(--ink-2);
-  padding: 8px 28px calc(8px + env(safe-area-inset-bottom, 0px));
-  text-align: center;
+.console-bar .bar-actions {
+  display: flex;
+  gap: 8px;
 }
-.keys kbd {
+
+/* facilitator panel: hidden until H or the Facilitator button */
+.fac-panel {
+  display: none;
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 10;
+  width: min(360px, calc(100vw - 32px));
+  max-height: 70vh;
+  overflow: auto;
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 14px;
+  box-shadow: 0 10px 30px rgb(16 35 58 / 0.18);
+}
+.fac-panel.open {
+  display: block;
+}
+.fac-panel h3 {
+  margin: 12px 0 6px;
+  font-size: 14px;
+}
+.fac-panel h3:first-child {
+  margin-top: 0;
+}
+.fac-panel dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 0;
+}
+.fac-panel dt {
+  color: var(--ink-2);
+}
+.fac-panel dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.fac-keys {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--ink-2);
+  line-height: 1.9;
+}
+.fac-panel kbd {
   font-family: inherit;
   font-weight: 600;
   color: var(--ink);
-  background: var(--paper);
+  background: var(--paper-2);
   border: 1px solid var(--line);
   border-radius: 5px;
   padding: 1px 6px;
 }
+
+/* the timer bar starts the clock when clicked */
+.reading .clock {
+  cursor: pointer;
+}
+
 .paused-banner {
   display: none;
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 10;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 1.5px solid var(--amber);
   font-weight: 600;
   color: var(--amber);
 }
@@ -906,27 +969,6 @@ footer.site-foot small {
   }
   .meter.board {
     grid-column: span 2;
-  }
-  .stage {
-    grid-template-columns: 1fr;
-  }
-  .clock {
-    position: static;
-    order: -1;
-  }
-  .dial {
-    width: 150px;
-    height: 150px;
-  }
-  .dot {
-    width: 134px;
-    height: 134px;
-  }
-  .dial .num {
-    font-size: 44px;
-  }
-  .options {
-    grid-template-columns: 1fr;
   }
 }
 

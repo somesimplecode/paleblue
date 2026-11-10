@@ -320,6 +320,19 @@ function renderMeters(changes){
       <div class="bar"><div class="fill" style="width:${v}%;background:${m.color}"></div><i class="tick" style="left:${th}%"></i></div></div>`;
   }).join("") + boardTile();
   requestAnimationFrame(() => document.querySelectorAll("[data-chip]").forEach(c => c.classList.add("show")));
+  renderPanel();
+}
+/* facilitator panel: hidden flags and consequences still waiting to land */
+function renderPanel(){
+  const flags = Object.entries(S.flags).map(([k, v]) =>
+    `<dt>${GAME.flagLabels?.[k] || k}</dt><dd>${v === true ? "Yes" : v === false ? "No" : v}</dd>`).join("");
+  const queue = S.queue.map(q => `<dt>in ${q.due - S.decisions}</dt><dd>${q.note || deltaText(q.delta || {}) || "(no note)"}</dd>`).join("");
+  $("#facFlags").innerHTML = flags || "<dt>None yet</dt><dd></dd>";
+  $("#facQueue").innerHTML = queue || "<dt>None</dt><dd></dd>";
+}
+function togglePanel(){
+  const open = $("#facPanel").classList.toggle("open");
+  $("#facBtn").setAttribute("aria-expanded", open);
 }
 function boardTile(){
   const n = active().length, c = n - (S.lastBoard ?? n);
@@ -362,20 +375,19 @@ function nextPrompt(){
 function renderPrompt(){
   const p = S.current;
   screen.innerHTML = `<section class="stage ${S.phase} ${p.isReview ? "review" : ""}">
-    <div>
+    <div class="clock" id="timer"><div class="fill" id="timerFill"></div><span class="num" id="timerNum">${S.seconds}</span></div>
+    <div class="stage-main">
       <p class="where">${labelOf(p)}</p>
       ${p.channel ? `<span class="channel">${p.channel}</span>` : ""}
       <p class="prompt-text">${p.text}</p>
       <div class="options">${p.options.map(o =>
         `<button class="opt" data-key="${o.key}" ${S.phase === "voting" ? "" : "disabled"}><b>${o.key}</b><span>${o.text}</span></button>`).join("")}
       </div>
+      <div class="controls">
+        <p class="hint" id="hint">Read the prompt aloud, then press Space or click the timer to start the clock.</p>
+      </div>
       <div id="resultSlot"></div>
-    </div>
-    <aside class="clock">
-      <div class="dial" id="dial"><div class="dot" id="dot"></div><span class="num" id="num">${S.seconds}</span></div>
-      <p class="hint" id="hint">Read the prompt aloud, then press Space to start the clock.</p>
-      <button class="bigbtn" data-act="advance" id="clockBtn">Start clock</button>
-    </aside></section>`;
+    </div></section>`;
 }
 
 function startClock(){
@@ -383,7 +395,7 @@ function startClock(){
   $(".stage").classList.replace("reading", "voting");
   document.querySelectorAll(".opt").forEach(b => b.disabled = false);
   $("#hint").textContent = votingHint();
-  $("#clockBtn").remove();
+  $("#timer").classList.add("running");
   S.remaining = S.seconds * 1000;
   S.endAt = performance.now() + S.remaining;
   tick();
@@ -394,9 +406,9 @@ function tick(){
     const left = Math.max(0, S.endAt - performance.now());
     S.remaining = left;
     const frac = left / (S.seconds * 1000);
-    $("#dot").style.transform = `scale(${Math.max(frac, 0.02)})`;
-    $("#num").textContent = Math.ceil(left / 1000);
-    $("#dial").classList.toggle("urgent", left <= 3000);
+    $("#timerFill").style.transform = `scaleX(${frac})`;
+    $("#timerNum").textContent = Math.ceil(left / 1000);
+    $("#timer").classList.toggle("late", left <= 3000);
     if (left <= 0) return choose(S.current.onTimeout || S.current.options[0].key, "timeout");
   }
   S.raf = requestAnimationFrame(tick);
@@ -432,7 +444,7 @@ function choose(key, mode = null){
   const why = mode === "split" ? "The board split." : mode === "timeout" ? "Time ran out." : "";
   document.querySelectorAll(".opt").forEach(b => { b.disabled = true; b.classList.toggle("picked", b.dataset.key === key); });
   $("#hint").textContent = "Press Space to continue.";
-  $(".clock").insertAdjacentHTML("beforeend", `<button class="bigbtn" data-act="advance">Continue</button>`);
+  $(".controls").insertAdjacentHTML("beforeend", `<button class="bigbtn" data-act="advance">Continue</button>`);
   $("#resultSlot").innerHTML = `<div class="result">
     ${mode ? `<p class="timeout">${why} ${p.timeoutNote || ""}</p>` : ""}
     <h3>${opt.key}. ${opt.text}</h3>
@@ -515,7 +527,9 @@ $("#openPortal").addEventListener("click", openGame);
 // close a nav dropdown after one of its links is clicked
 document.querySelectorAll(".menu a").forEach(a => a.addEventListener("click", () => a.blur()));
 $("#exitBtn").addEventListener("click", closeGame);
+$("#facBtn").addEventListener("click", togglePanel);
 screen.addEventListener("click", e => {
+  if (e.target.closest("#timer") && S.phase === "reading") return startClock();
   const opt = e.target.closest(".opt");
   if (opt && !opt.disabled) return choose(opt.dataset.key);
   const act = e.target.closest("[data-act]")?.dataset.act;
@@ -531,6 +545,7 @@ document.addEventListener("keydown", e => {
   else if (k === "s" && S.phase === "voting") choose(S.current.onTimeout || S.current.options[0].key, "split");
   else if (k === "g") goPublic();
   else if (k === "p") togglePause();
+  else if (k === "h") togglePanel();
   else if (k === "f") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
   else if (k === "r" && e.shiftKey) { reset(); showBriefing(); }
 });

@@ -17,7 +17,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=3" />
   </head>
   <body>
     <!--The PaleBlue Public Website-->
@@ -263,22 +263,34 @@
         <div class="wrap">
           <span class="logo"><i></i>paleblue leadership console</span>
           <span class="who">Product Safety Review Board Chair</span>
-          <button id="exitBtn">Sign out</button>
+          <span class="bar-actions">
+            <button id="facBtn" aria-controls="facPanel" aria-expanded="false">Facilitator</button>
+            <button id="exitBtn">Sign out</button>
+          </span>
         </div>
       </div>
       <div class="meters" id="meters"></div>
       <main id="screen" class="wrap"></main>
-      <div class="keys" id="keys">
-        <span class="paused-banner">Paused. Press P to resume.</span>
-        <kbd>Space</kbd> start clock or continue &nbsp; <kbd>A</kbd>–<kbd
-          >D</kbd
-        >
-        record the room's choice &nbsp; <kbd>G</kbd> a fired member goes public
-        &nbsp; <kbd>P</kbd> pause &nbsp; <kbd>F</kbd> full screen &nbsp;
-        <kbd>Shift</kbd>+<kbd>R</kbd> restart
-      </div>
+      <div class="paused-banner">Paused. Press P to resume.</div>
+      <aside class="fac-panel" id="facPanel" aria-label="Facilitator panel">
+        <h3>Hidden state</h3>
+        <dl id="facFlags"></dl>
+        <h3>Queued consequences</h3>
+        <dl id="facQueue"></dl>
+        <h3>Keys</h3>
+        <ul class="fac-keys">
+          <li><kbd>Space</kbd> start clock or continue</li>
+          <li><kbd>A</kbd>–<kbd>E</kbd> record the room's choice</li>
+          <li><kbd>S</kbd> split vote</li>
+          <li><kbd>G</kbd> a fired member goes public</li>
+          <li><kbd>P</kbd> pause</li>
+          <li><kbd>F</kbd> full screen</li>
+          <li><kbd>H</kbd> show or hide this panel</li>
+          <li><kbd>Shift</kbd>+<kbd>R</kbd> restart</li>
+        </ul>
+      </aside>
     </div>
 
-    <script src="content.js"></script>
+    <script src="content.js?v=3"></script>
   </body>
 </html>
